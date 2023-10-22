@@ -1,9 +1,11 @@
 package br.com.igorbag.githubsearch.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupView()
+        setupListeners()
         showUserName()
         setupRetrofit()
         getAllReposByUserName()
@@ -40,14 +43,19 @@ class MainActivity : AppCompatActivity() {
     private fun setupListeners() {
         //@TODO 2 - colocar a acao de click do botao confirmar
         btnConfirmar.setOnClickListener {
-
+            saveUserLocal(nomeUsuario.text.toString())
         }
     }
 
 
     // salvar o usuario preenchido no EditText utilizando uma SharedPreferences
-    private fun saveUserLocal() {
+    private fun saveUserLocal(user: String) {
         //@TODO 3 - Persistir o usuario preenchido na editText com a SharedPref no listener do botao salvar
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putString(getString(R.string.saved_user), user)
+            apply()
+        }
     }
 
     private fun showUserName() {
