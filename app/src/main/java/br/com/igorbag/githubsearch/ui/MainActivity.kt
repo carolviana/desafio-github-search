@@ -60,6 +60,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun showUserName() {
         //@TODO 4- depois de persistir o usuario exibir sempre as informacoes no EditText  se a sharedpref possuir algum valor, exibir no proprio editText o valor salvo
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        val username: String? = sharedPref.getString(getString(R.string.saved_user), getString((R.string.empty)))
+        if(username != getString(R.string.empty)){
+            nomeUsuario.setText(username)
+        }
     }
 
     //Metodo responsavel por fazer a configuracao base do Retrofit
